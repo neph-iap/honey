@@ -4,8 +4,9 @@
 	export let text: string;
 	export let onClick: () => void;
 	export let key: string | null = null;
+	export let baseColor: string;
 
-	let backgroundColor = text.match(/[0-9\.]/) ? "transparent" : text.match(/^=$/) ? "#FFCC33" : "rgba(255, 255, 255, 0.2)";
+	let backgroundColor = text.match(/[0-9\.]/) ? "transparent" : text.match(/=/) ? baseColor : "rgba(255, 255, 255, 0.2)";
 	let aspectRatio = text.match(/^=$/) ? 2 : 1;
 	let equalClass = text.match(/^=$/) ? "equal" : "";
 
@@ -70,5 +71,7 @@
 	.equal {
 		grid-column: 3 / span 2;
 		box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+		filter: hue-rotate(10deg) brightness(1.1);
+		font-weight: bold;
 	}
 </style>
