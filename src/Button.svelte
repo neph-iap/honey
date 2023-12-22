@@ -1,10 +1,32 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	export let text: string;
 	export let onClick: () => void;
+	export let key: string | null = null;
 
 	let backgroundColor = text.match(/[0-9\.]/) ? "transparent" : text.match(/^=$/) ? "#FFCC33" : "rgba(255, 255, 255, 0.2)";
 	let aspectRatio = text.match(/^=$/) ? 2 : 1;
-	let equalClass= text.match(/^=$/) ? "equal" : "";
+	let equalClass = text.match(/^=$/) ? "equal" : "";
+
+	// on mount so that this only happens once
+	onMount(() => {
+		document.addEventListener("keydown", event => {
+			if (event.key === (key ?? text)) {
+				button.classList.add("active");
+			}
+		});
+
+		document.addEventListener("keyup", event => {
+			if (event.key === (key ?? text)) {
+				onClick();
+				button.classList.remove("active");
+			}
+		});
+	});
+
+	let button: HTMLButtonElement;
+
 </script>
 
 <button 
@@ -12,6 +34,7 @@
 	style:background-color={backgroundColor} 
 	style:aspect-ratio={aspectRatio}
 	class={equalClass}
+	bind:this={button}
 >
 {text}
 </button>  
@@ -33,7 +56,7 @@
 			left: 0px;
 		}
 
-		&:active::after {
+		&:active::after, &.active::after {
 			content: "";
 			position: absolute;
 			width:100%;
