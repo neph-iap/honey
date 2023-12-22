@@ -59,12 +59,13 @@
 		settingsIsOpen = false;
 	}
 
-	let baseColor = "#FFCC55";
+	let baseColor = localStorage.getItem("baseColor") || "#FFCC55";
 	let topColor = removeGreen(baseColor, 80);
 
 	function setBaseColor(color: string) {
 		baseColor = color;
 		topColor = removeGreen(baseColor, 80);
+		localStorage.setItem("baseColor", baseColor);
 	}
 
 	function removeGreen(hexColor: string, percent: number) {
@@ -77,35 +78,37 @@
 	}
 </script> 
 
-<main style:background={`linear-gradient(${topColor}, ${baseColor})`}>
-	{#if settingsIsOpen}
-		<Settings closeSettings={closeSettings} setBaseColor={setBaseColor} baseColor={baseColor}/>
-	{:else}
-		{#key [screenText, screenSubtext]}
-			<Screen text={screenText} subtext={screenSubtext} openSettings={openSettings}/>
-		{/key}
+{#key baseColor}
+	<main style:background={`linear-gradient(${topColor}, ${baseColor})`}>
+		{#if settingsIsOpen}
+			<Settings closeSettings={closeSettings} setBaseColor={setBaseColor} baseColor={baseColor}/>
+		{:else}
+			{#key [screenText, screenSubtext]}
+				<Screen text={screenText} subtext={screenSubtext} openSettings={openSettings}/>
+			{/key}
 
-		<Button baseColor={baseColor} key="c" text="C" onClick={() => {screenText = "0"; screenSubtext = "";}} />
-		<Button baseColor={baseColor} key="Backspace" text="<" onClick={() => screenText = screenText.substring(0, screenText.length - 1)} />
-		<Button baseColor={baseColor} text="^" onClick={() => addToScreen("^")} />
-		<Button baseColor={baseColor} text="/" onClick={() => addToScreen("/")} />
-		<Button baseColor={baseColor} text="7" onClick={() => addToScreen("7")} />
-		<Button baseColor={baseColor} text="8" onClick={() => addToScreen("8")} />
-		<Button baseColor={baseColor} text="9" onClick={() => addToScreen("9")} />
-		<Button baseColor={baseColor} text="×" onClick={() => addToScreen("×")} />
-		<Button baseColor={baseColor} text="4" onClick={() => addToScreen("4")} />
-		<Button baseColor={baseColor} text="5" onClick={() => addToScreen("5")} />
-		<Button baseColor={baseColor} text="6" onClick={() => addToScreen("6")} />
-		<Button baseColor={baseColor} text="-" onClick={() => addToScreen("-")} />
-		<Button baseColor={baseColor} text="1" onClick={() => addToScreen("1")} />
-		<Button baseColor={baseColor} text="2" onClick={() => addToScreen("2")} />
-		<Button baseColor={baseColor} text="3" onClick={() => addToScreen("3")} />
-		<Button baseColor={baseColor} text="+" onClick={() => addToScreen("+")} />
-		<Button baseColor={baseColor} text="0" onClick={() => addToScreen("0")} />
-		<Button baseColor={baseColor} text="." onClick={() => addToScreen(".")} />
-		<Button baseColor={baseColor} key="Enter" text="=" onClick={evaluate} />
-	{/if}
-</main>
+			<Button baseColor={baseColor} key="c" text="C" onClick={() => {screenText = "0"; screenSubtext = "";}} />
+			<Button baseColor={baseColor} key="Backspace" text="<" onClick={() => screenText = screenText.substring(0, screenText.length - 1)} />
+			<Button baseColor={baseColor} text="^" onClick={() => addToScreen("^")} />
+			<Button baseColor={baseColor} text="/" onClick={() => addToScreen("/")} />
+			<Button baseColor={baseColor} text="7" onClick={() => addToScreen("7")} />
+			<Button baseColor={baseColor} text="8" onClick={() => addToScreen("8")} />
+			<Button baseColor={baseColor} text="9" onClick={() => addToScreen("9")} />
+			<Button baseColor={baseColor} text="×" onClick={() => addToScreen("×")} />
+			<Button baseColor={baseColor} text="4" onClick={() => addToScreen("4")} />
+			<Button baseColor={baseColor} text="5" onClick={() => addToScreen("5")} />
+			<Button baseColor={baseColor} text="6" onClick={() => addToScreen("6")} />
+			<Button baseColor={baseColor} text="-" onClick={() => addToScreen("-")} />
+			<Button baseColor={baseColor} text="1" onClick={() => addToScreen("1")} />
+			<Button baseColor={baseColor} text="2" onClick={() => addToScreen("2")} />
+			<Button baseColor={baseColor} text="3" onClick={() => addToScreen("3")} />
+			<Button baseColor={baseColor} text="+" onClick={() => addToScreen("+")} />
+			<Button baseColor={baseColor} text="0" onClick={() => addToScreen("0")} />
+			<Button baseColor={baseColor} text="." onClick={() => addToScreen(".")} />
+			<Button baseColor={baseColor} key="Enter" text="=" onClick={evaluate} />
+		{/if}
+	</main>
+{/key}
 
 <style lang="scss">
 	main {

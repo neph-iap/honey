@@ -30,6 +30,7 @@
 
 		input {
 			height: 3rem;
+			cursor: pointer;
 		}
 	}
 

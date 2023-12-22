@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 
 	export let text: string;
 	export let onClick: () => void;
@@ -20,6 +20,21 @@
 		});
 
 		document.addEventListener("keyup", event => {
+			if (event.key === (key ?? text)) {
+				button.classList.remove("active");
+			}
+		});
+	});
+
+	onDestroy(() => {
+		document.removeEventListener("keydown", event => {
+			if (event.key === (key ?? text)) {
+				onClick();
+				button.classList.add("active");
+			}
+		});
+
+		document.removeEventListener("keyup", event => {
 			if (event.key === (key ?? text)) {
 				button.classList.remove("active");
 			}
@@ -62,7 +77,7 @@
 			position: absolute;
 			width:100%;
 			height: 100%;
-			background: rgba(255, 255, 255, 0.4);
+			background: rgba(255, 255, 255, 0.25);
 			top: 0px;
 			left: 0px;
 		}
