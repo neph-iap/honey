@@ -18,19 +18,29 @@
 			return;
 		}
 
+		// If the screen is just 0, replace it with the typed number
 		if (screenText === "0") {
 			screenText = number;
-		} else if (!number.match(/\d/)) {
+			return;
+		}
+
+		// If the user types an operator, add it to the buffer and be ready to clear the screen
+		if (!number.match(/\d/)) {
 			screenSubtext = screenText;
 			screenSubtext += number;
 			primedToClear = true;
-		} else {
-			if (primedToClear) {
-				screenText = "";
-				primedToClear = false;
-			}
-			screenText += number;
+			return
 		}
+
+		// If the user has just done an operation, clear the screen and start a new number
+		if (primedToClear) {
+			screenText = "";
+			primedToClear = false;
+			screenText += number;
+			return;
+		}
+
+		screenText += number;
 	}
 
 	function evaluate() {
@@ -63,8 +73,7 @@
 		const blue = parseInt(hexColor.substring(5, 7), 16);
 
 		const newGreen = Math.max(0, green - percent);
-		const newHex = "#" + red.toString(16) + newGreen.toString(16) + blue.toString(16);
-		return newHex;
+		return "#" + red.toString(16) + newGreen.toString(16) + blue.toString(16);
 	}
 </script> 
 

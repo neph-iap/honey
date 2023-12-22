@@ -14,13 +14,13 @@
 	onMount(() => {
 		document.addEventListener("keydown", event => {
 			if (event.key === (key ?? text)) {
+				onClick();
 				button.classList.add("active");
 			}
 		});
 
 		document.addEventListener("keyup", event => {
 			if (event.key === (key ?? text)) {
-				onClick();
 				button.classList.remove("active");
 			}
 		});
